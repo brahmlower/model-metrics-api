@@ -1,0 +1,210 @@
+{
+  "activeParameters": 12,
+  "agenticIndex": 9.17542336091698,
+  "apexAgents": null,
+  "cacheHitDiscountPercent": null,
+  "cacheHitPrice": null,
+  "codingIndex": 10.7954545454545,
+  "commercialAllowed": true,
+  "contextWindowTokens": 64000,
+  "critpt": 0,
+  "deprecated": true,
+  "evalTokenCounts": {
+    "critpt": {
+      "answerTokens": 132049,
+      "inputTokens": 252106,
+      "outputTokens": 132049,
+      "reasoningTokens": 0
+    },
+    "gdpval": {
+      "answerTokens": 4634580,
+      "inputTokens": 272138681,
+      "outputTokens": 4634580,
+      "reasoningTokens": 0
+    },
+    "gpqa": {
+      "answerTokens": 81926,
+      "inputTokens": 46309,
+      "outputTokens": 81926,
+      "reasoningTokens": 0
+    },
+    "hle": {
+      "answerTokens": 849456,
+      "inputTokens": 558148,
+      "outputTokens": 849456,
+      "reasoningTokens": 0
+    },
+    "ifbench": {
+      "answerTokens": 149571,
+      "inputTokens": 22239,
+      "outputTokens": 149571,
+      "reasoningTokens": 0
+    },
+    "lcr": {
+      "answerTokens": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "reasoningTokens": 0
+    },
+    "mmmuPro": {
+      "answerTokens": 512043,
+      "inputTokens": 1334933,
+      "outputTokens": 512043,
+      "reasoningTokens": 0
+    },
+    "omniscience": {
+      "answerTokens": 47310,
+      "inputTokens": 716892,
+      "outputTokens": 47310,
+      "reasoningTokens": 0
+    },
+    "scicode": {
+      "answerTokens": 41066,
+      "inputTokens": 121888,
+      "outputTokens": 41066,
+      "reasoningTokens": 0
+    },
+    "tau2": {
+      "answerTokens": 248335,
+      "inputTokens": 15704645,
+      "outputTokens": 248335,
+      "reasoningTokens": 0
+    },
+    "terminalbenchHard": {
+      "answerTokens": 766498,
+      "inputTokens": 28732706,
+      "outputTokens": 766498,
+      "reasoningTokens": 0
+    }
+  },
+  "gdpvalBreakdown": {
+    "avgTurns": 66.57360406091371,
+    "elo": 459.75838091480307,
+    "lower95ci": 431.4535831273534,
+    "upper95ci": 489.2977288157191
+  },
+  "gdpvalNormalized": 0,
+  "gpqa": 0.572727272727273,
+  "hle": 0.0356811862835959,
+  "huggingfaceUrl": "https://huggingface.co/zai-org/GLM-4.5V",
+  "id": "0081ab31-d10a-44a0-a10d-eee5533fec65",
+  "ifbench": 0.286394557823129,
+  "inputModalityImage": true,
+  "inputModalitySpeech": false,
+  "inputModalityText": true,
+  "inputModalityVideo": false,
+  "intelligenceIndex": 12.740282388384,
+  "intelligenceIndexCostAnswer": 12.5114238,
+  "intelligenceIndexCostInput": 190.97616839999998,
+  "intelligenceIndexCostOutput": 12.5114238,
+  "intelligenceIndexCostReasoning": 0,
+  "intelligenceIndexCostTotal": 203.48759219999997,
+  "intelligenceIndexIsEstimated": false,
+  "intelligenceIndexTokenCounts": {
+    "answerTokens": 6950791,
+    "inputTokens": 318293614,
+    "outputTokens": 6950791,
+    "reasoningTokens": 0
+  },
+  "isOpenWeights": true,
+  "itbenchSre": null,
+  "lcr": 0,
+  "licenseName": "MIT",
+  "licenseUrl": "https://huggingface.co/zai-org/GLM-4.5",
+  "medianEndToEndResponseTimeSeconds": 54.13079578668987,
+  "medianOutputTokensPerSecond": 27.1365322929874,
+  "medianReasoningTimeSeconds": null,
+  "medianTimeToFirstAnswerTokenSeconds": 35.7054496665001,
+  "medianTimeToFirstTokenSeconds": 35.7054496665001,
+  "mmmuPro": 0.427745664739884,
+  "modelCreatorColor": "#1c7ff8",
+  "modelCreatorCountry": "cn",
+  "modelCreatorId": "67437eb6-7dc1-4e93-befd-22c8b8ec2065",
+  "modelCreatorLogo": "zai_small.svg",
+  "modelCreatorName": "Z AI",
+  "modelCreatorSlug": "zai",
+  "multilingualBreakdown": null,
+  "name": "GLM-4.5V (Non-reasoning)",
+  "omniscience": -53.5166666666667,
+  "omniscienceAccuracy": 0.179,
+  "omniscienceBreakdown": {
+    "business": {
+      "accuracy": 0.144,
+      "hallucinationRate": 0.844626168224299,
+      "omniscience": -57.9
+    },
+    "health": {
+      "accuracy": 0.192,
+      "hallucinationRate": 0.8960396039603961,
+      "omniscience": -53.2
+    },
+    "humanitiesAndSocialSciences": {
+      "accuracy": 0.188,
+      "hallucinationRate": 0.8891625615763546,
+      "omniscience": -53.4
+    },
+    "law": {
+      "accuracy": 0.107,
+      "hallucinationRate": 0.8006718924972005,
+      "omniscience": -60.8
+    },
+    "scienceEngineeringAndMathematics": {
+      "accuracy": 0.214,
+      "hallucinationRate": 0.8727735368956743,
+      "omniscience": -47.2
+    },
+    "softwareEngineering": {
+      "accuracy": 0.229,
+      "hallucinationRate": 0.9273670557717251,
+      "omniscience": -48.6
+    },
+    "total": {
+      "accuracy": 0.179,
+      "hallucinationRate": 0.869874137231019,
+      "omniscience": -53.516666666666666
+    }
+  },
+  "omniscienceNonHallucination": 0.13012586276898097,
+  "opennessBreakdown": {
+    "dataPosttrainAccess": 0,
+    "dataPosttrainLicense": 0,
+    "dataPretrainAccess": 1,
+    "dataPretrainLicense": 0,
+    "methodologyDisclosure": 2,
+    "methodologyLicense": 1,
+    "opennessIndex": 52.77777777777778,
+    "weightsAccess": 3,
+    "weightsLicense": 3
+  },
+  "openrouterApiId": "z-ai/glm-4.5v",
+  "outputModalityImage": false,
+  "outputModalitySpeech": false,
+  "outputModalityText": true,
+  "outputModalityVideo": false,
+  "percentile05OutputTokensPerSecond": 11.8465316196371,
+  "percentile05TimeToFirstTokenSeconds": 13.1312158572499,
+  "percentile95OutputTokensPerSecond": 59.8590328987925,
+  "percentile95TimeToFirstTokenSeconds": 92.5296103472998,
+  "price1mBlended0To100To1": 0.6118811881188119,
+  "price1mBlended0To1To1": 1.2,
+  "price1mBlended0To3To1": 0.8999999999999999,
+  "price1mBlended100To1To1": 0.6117647058823529,
+  "price1mBlended7To2To1": 0.72,
+  "price1mInputTokens": 0.6,
+  "price1mOutputTokens": 1.8,
+  "priceClass": "medium",
+  "quartile25OutputTokensPerSecond": 19.6333499609788,
+  "quartile25TimeToFirstTokenSeconds": 22.7994429045007,
+  "quartile75OutputTokensPerSecond": 38.044704299984,
+  "quartile75TimeToFirstTokenSeconds": 54.2439147854997,
+  "reasoningModel": false,
+  "releaseDate": "2025-08-11",
+  "scicode": 0.1875,
+  "shortName": "GLM-4.5V",
+  "sizeClass": "medium",
+  "slug": "glm-4-5v",
+  "tau2": 0.195906432748538,
+  "terminalbenchHard": 0.0681818181818182,
+  "totalParameters": 108,
+  "trainingTokensTrillions": null
+}

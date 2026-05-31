@@ -1,0 +1,78 @@
+version: "3"
+
+vars:
+  BIN_DIR: bin
+
+tasks:
+  build:
+    desc: Build the scrape-aa binary
+    cmds:
+      - go build -o {{.BIN_DIR}}/scrape-aa ./cmd/scrape-aa
+    sources:
+      - cmd/scrape-aa/**/*.go
+      - pkg/aa/**/*.go
+      - internal/**/*.go
+    generates:
+      - "{{.BIN_DIR}}/scrape-aa"
+
+  scrape:
+    desc: Run the scraper and write models.json
+    cmds:
+      - go run ./cmd/scrape-aa scrape
+
+  generate:
+    desc: Run sqlc code generation
+    cmds:
+      - sqlc generate
+
+  test:
+    desc: Run tests with race detector
+    cmds:
+      - go test -race ./...
+
+  tidy:check:
+    desc: Verify go.mod and go.sum are tidy
+    cmds:
+      - go mod tidy
+      - git diff --exit-code -- go.mod go.sum
+
+  lint:
+    desc: Run all lints
+    cmds:
+      - task: lint:golangci-lint
+      - task: lint:govulncheck
+      - task: lint:nilaway
+      - task: lint:go-arch-lint
+
+  lint:golangci-lint:
+    desc: Run golangci-lint
+    cmds:
+      - golangci-lint config verify
+      - golangci-lint fmt ./...
+      - golangci-lint run --fix --max-same-issues 50 ./...
+      - git add -u
+
+  lint:govulncheck:
+    desc: Check for dependency vulnerabilities
+    cmds:
+      - govulncheck ./...
+
+  lint:nilaway:
+    desc: Run nil safety analysis
+    cmds:
+      - nilaway ./...
+
+  lint:go-arch-lint:
+    desc: Check internal package dependency boundaries
+    cmds:
+      - go-arch-lint check
+
+  tidy:
+    desc: Tidy go.mod and go.sum
+    cmds:
+      - go mod tidy
+
+  clean:
+    desc: Remove built binaries
+    cmds:
+      - rm -rf {{.BIN_DIR}}

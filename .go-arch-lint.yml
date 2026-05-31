@@ -1,0 +1,32 @@
+# THIS CONFIG IS FROZEN. DO NOT MODIFY TO SUPPRESS VIOLATIONS.
+# Violations are implementation problems, not config problems.
+#
+# Notes:
+# - vendor imports are unrestricted (go-arch-lint enforces internal boundaries only)
+# - test files are excluded: external _test packages self-import the package under
+#   test, which go-arch-lint otherwise flags as a spurious self-dependency
+# - cmd packages are entry points and may depend on any internal package
+version: 2
+workdir: .
+excludeFiles:
+  - ".*_test\\.go$"
+components:
+  cmd:    { in: cmd/** }
+  aa:     { in: pkg/aa }
+  db:     { in: internal/db }
+  api:    { in: internal/api }
+  daemon: { in: internal/daemon }
+deps:
+  aa:
+    anyVendorDeps: true
+  db:
+    anyVendorDeps: true
+  daemon:
+    anyVendorDeps: true
+    mayDependOn: [aa, db]
+  api:
+    anyVendorDeps: true
+    mayDependOn: [aa, db, daemon]
+  cmd:
+    anyVendorDeps: true
+    mayDependOn: [aa, db, api, daemon]
