@@ -2,14 +2,14 @@ package aa
 
 // Model represents a single AI model entry from artificialanalysis.ai.
 type Model struct {
-	ActiveParameters                    *int64                            `json:"activeParameters"`
+	ActiveParameters                    *float64                          `json:"activeParameters"`
 	AgenticIndex                        *float64                          `json:"agenticIndex"`
 	ApexAgents                          *float64                          `json:"apexAgents"`
 	CacheHitDiscountPercent             *float64                          `json:"cacheHitDiscountPercent"`
 	CacheHitPrice                       *float64                          `json:"cacheHitPrice"`
 	CodingIndex                         *float64                          `json:"codingIndex"`
 	CommercialAllowed                   *bool                             `json:"commercialAllowed"`
-	ContextWindowTokens                 *int64                            `json:"contextWindowTokens"`
+	ContextWindowTokens                 *float64                          `json:"contextWindowTokens"`
 	Critpt                              *float64                          `json:"critpt"`
 	Deprecated                          bool                              `json:"deprecated"`
 	EvalTokenCounts                     map[string]EvalTokenCount         `json:"evalTokenCounts"`
@@ -85,6 +85,6 @@ type Model struct {
 	Slug                                string                            `json:"slug"`
 	Tau2                                *float64                          `json:"tau2"`
 	TerminalbenchHard                   *float64                          `json:"terminalbenchHard"`
-	TotalParameters                     *int64                            `json:"totalParameters"`
+	TotalParameters                     *float64                          `json:"totalParameters"`
 	TrainingTokensTrillions             *float64                          `json:"trainingTokensTrillions"`
 }

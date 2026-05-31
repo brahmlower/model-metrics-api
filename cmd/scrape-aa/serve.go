@@ -115,7 +115,7 @@ func runServe(flagAddr, flagDB, flagInterval string) error {
 
 func buildRouter(addr string, queries *dbpkg.Queries, d *daemon.Daemon) http.Handler {
 	r := chi.NewRouter()
-	r.Mount("/api/v1", api.NewRouter(queries, d))
+	r.Mount("/", api.NewRouter(queries, d))
 
 	mcpSrv := api.NewMCPServer(queries)
 	sseSrv := mcpserver.NewSSEServer(mcpSrv,
