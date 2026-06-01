@@ -1,7 +1,11 @@
 package aa
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 )
 
@@ -72,6 +76,90 @@ func TestScanBracketEnd(t *testing.T) {
 		if got != tt.want {
 			t.Errorf("input=%q got=%d want=%d", tt.input, got, tt.want)
 		}
+	}
+}
+
+func TestFindChunkBound(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name  string
+		input string
+		start int
+		want  int
+	}{
+		{"normal", `hello"`, 0, 5},
+		{"escaped quote", `hel\"lo"`, 0, 7},
+		{"no closing quote returns last index", `hello`, 0, 4},
+		{"empty string", ``, 0, -1},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got := findChunkBound(tt.input, tt.start)
+			if got != tt.want {
+				t.Errorf("findChunkBound(%q, %d) = %d, want %d", tt.input, tt.start, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestScrape(t *testing.T) {
+	t.Parallel()
+
+	// Hardcode the chunk with "id" first to match the real site's RSC field order,
+	// which is what the "models":[{"id" content check expects.
+	const chunk = `RSC data "models":[{"id":"m1","slug":"test-model","name":"Test Model","modelCreatorName":"Acme","intelligenceIndex":0.95}] end`
+
+	// JSON-encode the chunk so it can be embedded as a JS string literal.
+	encodedChunk, err := json.Marshal(chunk)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	html := fmt.Sprintf(`<html><script>self.__next_f.push([1,%s])</script></html>`, string(encodedChunk))
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		fmt.Fprint(w, html)
+	}))
+	defer ts.Close()
+
+	s := &Scraper{client: ts.Client(), url: ts.URL}
+
+	models, err := s.Scrape(t.Context())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(models) != 1 {
+		t.Fatalf("got %d models, want 1", len(models))
+	}
+
+	if models[0].Slug != "test-model" {
+		t.Errorf("slug = %s, want test-model", models[0].Slug)
+	}
+
+	if models[0].IntelligenceIndex == nil || *models[0].IntelligenceIndex != 0.95 {
+		t.Errorf("intelligenceIndex = %v, want 0.95", models[0].IntelligenceIndex)
+	}
+}
+
+func TestScrapeModelsNotFound(t *testing.T) {
+	t.Parallel()
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		fmt.Fprint(w, `<html><body>no RSC chunks here</body></html>`)
+	}))
+	defer ts.Close()
+
+	s := &Scraper{client: ts.Client(), url: ts.URL}
+
+	_, err := s.Scrape(t.Context())
+	if !errors.Is(err, errModelsNotFound) {
+		t.Errorf("expected errModelsNotFound, got %v", err)
 	}
 }
 

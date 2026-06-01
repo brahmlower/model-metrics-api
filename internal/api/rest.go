@@ -25,6 +25,9 @@ var (
 	errInvalidScrapeID = errors.New("invalid scrape_id")
 	errInvalidAsOf     = errors.New("invalid as_of")
 	errUnmarshalModel  = errors.New("unmarshal model")
+	errUnknownBench    = errors.New("unknown bench")
+	errInvalidBenchMin = errors.New("invalid min value")
+	errInvalidBenchMax = errors.New("invalid max value")
 )
 
 type daemonScraper interface {
@@ -125,7 +128,13 @@ func handleListModels(queries *db.Queries) http.HandlerFunc {
 			return
 		}
 
-		models = applyFiltersAndSort(r, models)
+		models, err = applyFiltersAndSort(r, models)
+		if err != nil {
+			writeError(w, http.StatusBadRequest, err)
+
+			return
+		}
+
 		resp := modelsResponse{
 			ScrapeID:  scrape.ID,
 			ScrapedAt: scrape.ScrapedAt,
@@ -236,9 +245,38 @@ func resolveModelSnap(
 	return queries.GetModelBySlug(r.Context(), slug)
 }
 
-func applyFiltersAndSort(r *http.Request, models []aa.Model) []aa.Model {
+func applyFiltersAndSort(r *http.Request, models []aa.Model) ([]aa.Model, error) {
 	if creator := r.URL.Query().Get("creator"); creator != "" {
 		models = filterByCreator(models, creator)
+	}
+
+	if bench := r.URL.Query().Get("bench"); bench != "" {
+		var minVal, maxVal *float64
+
+		if s := r.URL.Query().Get("min"); s != "" {
+			v, err := strconv.ParseFloat(s, 64)
+			if err != nil {
+				return nil, errInvalidBenchMin
+			}
+
+			minVal = &v
+		}
+
+		if s := r.URL.Query().Get("max"); s != "" {
+			v, err := strconv.ParseFloat(s, 64)
+			if err != nil {
+				return nil, errInvalidBenchMax
+			}
+
+			maxVal = &v
+		}
+
+		filtered, ok := filterByBench(models, bench, minVal, maxVal)
+		if !ok {
+			return nil, errUnknownBench
+		}
+
+		models = filtered
 	}
 
 	sortBy := r.URL.Query().Get("sort_by")
@@ -253,7 +291,7 @@ func applyFiltersAndSort(r *http.Request, models []aa.Model) []aa.Model {
 
 	sortModels(models, sortBy, order)
 
-	return models
+	return models, nil
 }
 
 func unmarshalSnapshots(snaps []db.ModelSnapshot) ([]aa.Model, error) {
@@ -284,6 +322,74 @@ func filterByCreator(models []aa.Model, creator string) []aa.Model {
 	}
 
 	return filtered
+}
+
+func benchField(m aa.Model, name string) (*float64, bool) {
+	switch name {
+	case "agenticIndex":
+		return m.AgenticIndex, true
+	case "apexAgents":
+		return m.ApexAgents, true
+	case "codingIndex":
+		return m.CodingIndex, true
+	case "critpt":
+		return m.Critpt, true
+	case "gdpvalNormalized":
+		return m.GdpvalNormalized, true
+	case "gpqa":
+		return m.Gpqa, true
+	case "hle":
+		return m.Hle, true
+	case "ifbench":
+		return m.Ifbench, true
+	case "intelligenceIndex":
+		return m.IntelligenceIndex, true
+	case "itbenchSre":
+		return m.ItbenchSre, true
+	case "lcr":
+		return m.Lcr, true
+	case "mmmuPro":
+		return m.MmmuPro, true
+	case "omniscience":
+		return m.Omniscience, true
+	case "scicode":
+		return m.Scicode, true
+	case "tau2":
+		return m.Tau2, true
+	case "terminalbenchHard":
+		return m.TerminalbenchHard, true
+	default:
+		return nil, false
+	}
+}
+
+// filterByBench filters models by bench score. Returns (nil, false) if bench name is unknown.
+func filterByBench(models []aa.Model, bench string, min, max *float64) ([]aa.Model, bool) {
+	if _, ok := benchField(aa.Model{}, bench); !ok {
+		return nil, false
+	}
+
+	filtered := make([]aa.Model, 0)
+
+	for _, m := range models {
+		score, _ := benchField(m, bench)
+
+		if score == nil {
+			continue
+		}
+
+		if min != nil && *score < *min {
+			continue
+		}
+
+		if max != nil && *score > *max {
+			continue
+		}
+
+		filtered = append(filtered, m)
+	}
+
+	return filtered, true
 }
 
 func sortModels(models []aa.Model, by, order string) {

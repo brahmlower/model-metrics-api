@@ -32,6 +32,14 @@ func NewMCPServer(queries *db.Queries) *server.MCPServer {
 				"creator",
 				mcp.Description("Filter by creator name (case-insensitive substring)"),
 			),
+			mcp.WithString(
+				"bench",
+				mcp.Description(
+					"Filter by bench score (camelCase field: gpqa, hle, codingIndex, intelligenceIndex, etc.)",
+				),
+			),
+			mcp.WithNumber("min", mcp.Description("Minimum bench score (inclusive)")),
+			mcp.WithNumber("max", mcp.Description("Maximum bench score (inclusive)")),
 			mcp.WithNumber("limit", mcp.Description("Max results to return (default 50)")),
 		),
 		listModelsHandler(queries),
@@ -90,6 +98,29 @@ func listModelsHandler(queries *db.Queries) server.ToolHandlerFunc {
 		creator := req.GetString("creator", "")
 		if creator != "" {
 			models = filterByCreator(models, creator)
+		}
+
+		if bench := req.GetString("bench", ""); bench != "" {
+			var minVal, maxVal *float64
+
+			args := req.GetArguments()
+
+			if _, ok := args["min"]; ok {
+				f := req.GetFloat("min", 0)
+				minVal = &f
+			}
+
+			if _, ok := args["max"]; ok {
+				f := req.GetFloat("max", 0)
+				maxVal = &f
+			}
+
+			filtered, ok := filterByBench(models, bench, minVal, maxVal)
+			if !ok {
+				return nil, errUnknownBench
+			}
+
+			models = filtered
 		}
 
 		sortBy := req.GetString("sort_by", "intelligence_index")

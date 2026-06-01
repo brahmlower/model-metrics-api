@@ -21,16 +21,19 @@ var (
 )
 
 // Scraper fetches model data from artificialanalysis.ai.
-type Scraper struct{}
+type Scraper struct {
+	client *http.Client
+	url    string
+}
 
 // NewScraper returns a new Scraper ready to use.
 func NewScraper() *Scraper {
-	return &Scraper{}
+	return &Scraper{client: http.DefaultClient, url: pageURL}
 }
 
 // Scrape fetches and parses the current AI model list from artificialanalysis.ai.
 func (s *Scraper) Scrape(ctx context.Context) ([]Model, error) {
-	body, err := fetchPage(ctx)
+	body, err := s.fetchPage(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62,13 +65,13 @@ func (s *Scraper) Scrape(ctx context.Context) ([]Model, error) {
 	return nil, errModelsNotFound
 }
 
-func fetchPage(ctx context.Context) ([]byte, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, pageURL, nil)
+func (s *Scraper) fetchPage(ctx context.Context) ([]byte, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, s.url, nil)
 	if err != nil {
 		return nil, fmt.Errorf("build request: %w", err)
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := s.client.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("fetch: %w", err)
 	}

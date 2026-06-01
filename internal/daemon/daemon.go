@@ -28,7 +28,7 @@ type Daemon struct {
 }
 
 // New creates a Daemon that scrapes on the given interval.
-func New(s *aa.Scraper, queries *db.Queries, sqlDB *sql.DB, interval time.Duration) *Daemon {
+func New(s scraper, queries *db.Queries, sqlDB *sql.DB, interval time.Duration) *Daemon {
 	return &Daemon{
 		scraper:  s,
 		queries:  queries,

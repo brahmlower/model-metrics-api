@@ -35,6 +35,7 @@ Base: `http://localhost:8080/api/v1`
 | `GET`  | `/models?as_of=RFC3339`                 | Models from the closest historical scrape                                          |
 | `GET`  | `/models?creator=anthropic`             | Filter by creator (case-insensitive)                                               |
 | `GET`  | `/models?sort_by=price_input&order=asc` | Sort (`intelligence_index`, `coding_index`, `price_input`, `price_output`, `name`) |
+| `GET`  | `/models?bench=gpqa&min=0.5&max=0.9`    | Filter by bench score (camelCase field name, e.g. `gpqa`, `hle`, `codingIndex`)   |
 | `GET`  | `/models/{slug}`                        | Single model by slug                                                               |
 
 ## MCP Server
@@ -43,7 +44,7 @@ SSE endpoint: `http://localhost:8080/mcp/sse`
 
 **Tools:**
 
-- `list_models` — list models with optional `sort_by`, `creator`, `limit`
+- `list_models` — list models with optional `sort_by`, `creator`, `bench`, `min`, `max`, `limit`
 - `get_model` — get a model by `slug`
 - `search_models` — search by `query` (name or creator substring)
 
