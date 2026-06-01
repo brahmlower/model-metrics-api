@@ -9,8 +9,8 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/restrukt-ai/model-metrics-scraper/internal/db"
-	"github.com/restrukt-ai/model-metrics-scraper/pkg/aa"
+	"github.com/restrukt-ai/model-metrics-api/internal/db"
+	"github.com/restrukt-ai/model-metrics-api/pkg/aa"
 )
 
 const defaultModelLimit = 50

@@ -1,4 +1,4 @@
-module github.com/restrukt-ai/model-metrics-scraper
+module github.com/restrukt-ai/model-metrics-api
 
 go 1.26.3
 

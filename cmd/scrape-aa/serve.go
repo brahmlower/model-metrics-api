@@ -15,10 +15,10 @@ import (
 	mcpserver "github.com/mark3labs/mcp-go/server"
 	"github.com/spf13/cobra"
 
-	"github.com/restrukt-ai/model-metrics-scraper/internal/api"
-	"github.com/restrukt-ai/model-metrics-scraper/internal/daemon"
-	dbpkg "github.com/restrukt-ai/model-metrics-scraper/internal/db"
-	"github.com/restrukt-ai/model-metrics-scraper/pkg/aa"
+	"github.com/restrukt-ai/model-metrics-api/internal/api"
+	"github.com/restrukt-ai/model-metrics-api/internal/daemon"
+	dbpkg "github.com/restrukt-ai/model-metrics-api/internal/db"
+	"github.com/restrukt-ai/model-metrics-api/pkg/aa"
 
 	_ "modernc.org/sqlite"
 )

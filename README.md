@@ -1,4 +1,4 @@
-# model-metrics-scraper
+# model-metrics-api
 
 Scrapes model metrics from [artificialanalysis.ai](https://artificialanalysis.ai/leaderboards/models)
 and serves them via a REST API and MCP server.

@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/restrukt-ai/model-metrics-scraper/internal/db"
-	"github.com/restrukt-ai/model-metrics-scraper/pkg/aa"
+	"github.com/restrukt-ai/model-metrics-api/internal/db"
+	"github.com/restrukt-ai/model-metrics-api/pkg/aa"
 	_ "modernc.org/sqlite"
 )
 

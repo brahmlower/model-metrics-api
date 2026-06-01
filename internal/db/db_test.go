@@ -9,7 +9,7 @@ import (
 
 	_ "modernc.org/sqlite"
 
-	"github.com/restrukt-ai/model-metrics-scraper/internal/db"
+	"github.com/restrukt-ai/model-metrics-api/internal/db"
 )
 
 func openMemDB(t *testing.T) *db.Queries {
