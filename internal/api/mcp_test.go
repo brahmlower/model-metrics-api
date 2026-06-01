@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/mark3labs/mcp-go/mcp"
-	"github.com/restrukt-ai/model-metrics-api/internal/db"
-	"github.com/restrukt-ai/model-metrics-api/pkg/aa"
+	"github.com/brahmlower/model-metrics-api/internal/db"
+	"github.com/brahmlower/model-metrics-api/pkg/aa"
 	_ "modernc.org/sqlite"
 )
 

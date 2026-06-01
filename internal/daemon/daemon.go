@@ -9,8 +9,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/restrukt-ai/model-metrics-api/internal/db"
-	"github.com/restrukt-ai/model-metrics-api/pkg/aa"
+	"github.com/brahmlower/model-metrics-api/internal/db"
+	"github.com/brahmlower/model-metrics-api/pkg/aa"
 )
 
 // scraper is the interface Daemon uses to fetch model data.

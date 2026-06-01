@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"slices"
 
-	"github.com/restrukt-ai/model-metrics-api/pkg/aa"
+	"github.com/brahmlower/model-metrics-api/pkg/aa"
 	"github.com/spf13/cobra"
 )
 

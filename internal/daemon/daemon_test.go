@@ -11,8 +11,8 @@ import (
 
 	_ "modernc.org/sqlite"
 
-	"github.com/restrukt-ai/model-metrics-api/internal/db"
-	"github.com/restrukt-ai/model-metrics-api/pkg/aa"
+	"github.com/brahmlower/model-metrics-api/internal/db"
+	"github.com/brahmlower/model-metrics-api/pkg/aa"
 )
 
 var testDBCounter atomic.Int64
